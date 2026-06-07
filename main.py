@@ -15,6 +15,9 @@ def main():
 
     client = genai.Client(api_key=api_key)
     parser = argparse.ArgumentParser(description="AI Agent")
+    _ = parser.add_argument(
+        "--verbose", action="store_true", help="Enable verbose output"
+    )
     _ = parser.add_argument("user_prompt", type=str, help="User prompt")
     args = parser.parse_args()
 
@@ -29,8 +32,10 @@ def main():
     prompt_token_count = response.usage_metadata.prompt_token_count
     candidates_token_count = response.usage_metadata.candidates_token_count
 
-    print(f"Prompt tokens: {prompt_token_count}")
-    print(f"Response tokens: {candidates_token_count}")
+    if args.verbose:
+        print(f"User prompt: {args.user_prompt}")
+        print(f"Prompt tokens: {prompt_token_count}")
+        print(f"Response tokens: {candidates_token_count}")
     print("Response:")
     print(response.text)
 
